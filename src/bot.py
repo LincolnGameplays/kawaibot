@@ -164,7 +164,7 @@ class KaorukoBot:
 
     # --- Main Loop ---
     def main(self):
-        if CONFIG.TELEGRAM_TOKEN == 8196118567:AAHV47TmQiJ57Q_hBCUNZopvmdhwutRXV_w:
+        if CONFIG.TELEGRAM_TOKEN == "8196118567:AAHV47TmQiJ57Q_hBCUNZopvmdhwutRXV_w":
             logger.error("O TELEGRAM_TOKEN não foi configurado no script de inicialização!")
             return
 
