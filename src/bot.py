@@ -1,4 +1,3 @@
-import os
 import logging
 import json
 import random
@@ -164,7 +163,7 @@ class KaorukoBot:
 
     # --- Main Loop ---
     def main(self):
-        if CONFIG.TELEGRAM_TOKEN == "8196118567:AAHV47TmQiJ57Q_hBCUNZopvmdhwutRXV_w":
+        if CONFIG.TELEGRAM_TOKEN == "SEU_TOKEN_AQUI":
             logger.error("O TELEGRAM_TOKEN não foi configurado no script de inicialização!")
             return
 
