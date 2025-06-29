@@ -11,7 +11,7 @@ class KawaiiConfig:
     INFERENCE_SERVER_URL: str = os.getenv("INFERENCE_SERVER_URL", "http://127.0.0.1:8080/completion")
 
     # Token do seu bot no Telegram (essencial)
-    TELEGRAM_TOKEN: str = os.getenv("TELEGRAM_TOKEN", 8196118567:AAHV47TmQiJ57Q_hBCUNZopvmdhwutRXV_w)
+    TELEGRAM_TOKEN: str = os.getenv("TELEGRAM_TOKEN", "8196118567:AAHV47TmQiJ57Q_hBCUNZopvmdhwutRXV_w")
 
     # Diretório para salvar dados dos usuários
     USER_DATA_DIR: str = "user_data"
