@@ -1,0 +1,5 @@
+python-telegram-bot
+requests
+langdetect
+google-cloud-texttospeech
+google-cloud-translate

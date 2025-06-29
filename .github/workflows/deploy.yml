@@ -1,0 +1,53 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches: [ "main" ]  # Dispara o deploy apenas em pushes para a branch "main"
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}  # ID do projeto no Google Cloud
+  REGION: southamerica-east1                # Região do Cloud Run
+  SERVICE_NAME: kawaibot                    # Nome do serviço
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      # 1. Baixa o código do repositório
+      - uses: actions/checkout@v4
+
+      # 2. Autenticação no Google Cloud
+      - id: auth
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}  # JSON da Service Account
+          workload_identity_provider: ${{ secrets.WLIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      # 3. Configura o CLI do Google Cloud (gcloud)
+      - name: Set up gcloud CLI
+        uses: google-github-actions/setup-gcloud@v1
+
+      # 4. Constrói a imagem Docker e envia para o Google Container Registry
+      - name: Build Docker image
+        run: |
+          gcloud builds submit \
+            --tag gcr.io/$PROJECT_ID/$SERVICE_NAME \
+            --timeout 1800s  # Tempo máximo de build: 30 minutos
+
+      # 5. Faz o deploy no Cloud Run
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy $SERVICE_NAME \
+            --image gcr.io/$PROJECT_ID/$SERVICE_NAME \
+            --platform managed \
+            --region $REGION \
+            --memory 4Gi \
+            --cpu 2 \
+            --port 8080 \
+            --allow-unauthenticated \
+            --set-env-vars="TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }}"
